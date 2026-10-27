@@ -7,8 +7,7 @@ empty punch slot on today's row.
 
 1. Open the timesheet → **Extensions → Apps Script**
 2. Replace the contents of the boilerplate function with `timeclock-appsscript.gs` → **Save**
-3. Select the setupTimeClock function from the drop down menu and click the play button to run the code. 
-      **Authorize then reload the spreadsheet**
+3. Reload
 
 The **Time Clock** menu appears on load (`onOpen`), offering *Clock In / Out* and
 *Undo last punch*. Nothing else to authorize or run.
