@@ -1,7 +1,7 @@
 /**
  * TIME CLOCK  —  automatic time in / time out for this spreadsheet
  * -----------------------------------------------------------------
- * Install:  Extensions > Apps Script, delete the boilerplate, paste this whole file, Save.
+ * Install:  Extensions > Apps Script, delete the boilerplate, paste the whole timeclock-appsscript.gs file, Save.
  * Then run  setupTimeClock  once and approve the permissions prompt.
  *
  * That gives you three ways to punch in/out:
