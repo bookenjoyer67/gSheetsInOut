@@ -6,7 +6,7 @@ empty punch slot on today's row.
 ## Install
 
 1. Open the timesheet → **Extensions → Apps Script**
-2. Replace the contents of `Code.gs` with `timeclock-appsscript.gs` → **Save**
+2. Replace the contents of the boilerplate function with `timeclock-appsscript.gs` → **Save**
 3. Reload the spreadsheet
 
 The **Time Clock** menu appears on load (`onOpen`), offering *Clock In / Out* and
