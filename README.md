@@ -1,7 +1,7 @@
 # gSheetsInOut — one-click time in / time out
 
 Google Apps Script for as bi-weekly timesheet. One click fills the next
-empty punch slot on today's row. No checkbox, no setup function, no config run.
+empty punch slot on today's row.
 
 ## Install
 
