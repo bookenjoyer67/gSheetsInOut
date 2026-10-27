@@ -1,25 +1,29 @@
 # gSheetsInOut — one-click time in / time out
 
-Google Apps Script for as bi-weekly timesheet. One click fills the next
+Google Apps Script for a bi-weekly timesheet. One tap on a checkbox fills the next
 empty punch slot on today's row.
 
 ## Install
 
 1. Open the timesheet → **Extensions → Apps Script**
-2. Replace the contents of the boilerplate function with `timeclock-appsscript.gs` → **Save**
-3. Reload
+2. Replace the contents of `Code.gs` with `timeclock-appsscript.gs` → **Save**
+3. Run `setupTimeClock` once → approve the permission prompt → reload the sheet
 
-The **Time Clock** menu appears on load (`onOpen`), offering *Clock In / Out* and
-*Undo last punch*. Nothing else to authorize or run.
+`setupTimeClock` tells you exactly which cell the checkbox landed in. You do not have to
+run it more than once: `onOpen` re-creates the checkbox whenever it is missing, so it
+cannot quietly vanish again.
 
-## Button
+## Why it did nothing on mobile
 
-The button is a manual 4-step:
+Nothing was broken in the script — the two desktop affordances do not exist in the
+Sheets mobile app:
 
-1. **Insert → Drawing**, draw a box, type `CLOCK IN / OUT`, **Save and Close**
-2. Click the drawing → **⋮** (3-dot menu) → **Assign script**
-3. Type `clockInOut` → OK
-4. Click it — it punches the clock
+- **Custom menus** (`onOpen` + `createMenu`) render only in the desktop/web version.
+- **Drawings and images** cannot run assigned scripts in the mobile app; tapping them
+  does nothing.
+
+The one mechanism the app does support is a cell edit firing `onEdit` server-side, which
+is why the checkbox is the mobile path.
 
 ## Behaviour
 
@@ -33,24 +37,20 @@ rows 10-26. Punches fill in this order:
 | 3 | G | Time In (2nd shift) |
 | 4 | H | Time Out (2nd shift) |
 
-- 2 clicks = normal day, 4 clicks = split shift, 5th click writes nothing and says the
-  row is full.
-- Values are written as time-of-day fractions with `h:mm am/pm`, so the sheet's
-  `E-D` / `H-G` Sub-Total formulas keep working exactly as with hand-typed times.
-- Rounded to the nearest 15 minutes (`CFG.roundTo15`, per the sheet's own rule).
-  23:5x clamps to 23:45 instead of wrapping to midnight.
-- A date not in the sheet (e.g. after the pay period rolls over) writes nothing and
-  toasts an error rather than guessing a row.
-- `Undo last punch` clears the last filled slot on today's row.
+- 2 taps = normal day, 4 taps = split shift, 5th tap writes nothing and reports the row
+  is full.
+- The checkbox re-arms itself after every tap, so it stays clickable forever.
+- Feedback goes to **K3** ("Time In punched at 9:00 AM (row 13)") because the mobile app
+  shows no toasts; desktop also gets a toast.
+- Values are written as time-of-day fractions with `h:mm am/pm`, so the sheet's `E-D` /
+  `H-G` Sub-Total formulas keep working exactly as with hand-typed times.
+- Rounded to the nearest 15 minutes (`CFG.roundTo15`, per the sheet's own rule); 23:5x
+  clamps to 23:45 instead of wrapping to midnight.
+- A date not in the sheet writes nothing and reports an error instead of guessing a row.
+- `Time Clock → Undo last punch` (desktop) clears the last filled slot on today's row.
 
 ## Cells it writes
 
-Only `D`, `E`, `G`, `H` on today's row in column-C range. Formulas, the How To Use
-column, and everything else are untouched.
-
-## Layout assumptions
-
-Rows 10-23 are the pay-period days, row 24 is the `SPARE DATES` label (no day number
-in column C, so it is skipped automatically), rows 25-26 are the spare days. If the
-template changes, adjust `CFG` at the top of the script.
+`D`, `E`, `G`, `H` on today's row, plus the checkbox cell, its label, and `K3` for
+status.
 
