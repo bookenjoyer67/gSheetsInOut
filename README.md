@@ -51,6 +51,5 @@ rows 10-26. Punches fill in this order:
 
 ## Cells it writes
 
-`D`, `E`, `G`, `H` on today's row, plus the checkbox cell, its label, and `K3` for
-status.
+Configured at the top. Picks the first free option out of what is listed. 
 
